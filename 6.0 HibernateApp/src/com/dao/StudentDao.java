@@ -1,31 +1,49 @@
 package com.dao;
-/*
-Dao is responsible for database opration like insert ,update ,
-delete,select.
-*/
 
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.bean.Student;
+import com.bean.StudentBean;
 import com.util.StudentUtil;
 
 public class StudentDao {
 
-	public static void insertStudent(Student s)
-	{
-		Session session=StudentUtil.createSession();
-		Transaction tr=session.beginTransaction();
+	public static void insertStudent(StudentBean s) {
+		
+		Session session = StudentUtil.createSession();
+		Transaction tr = session.beginTransaction();`
 		session.save(s);
 		tr.commit();
 		session.close();
 	}
-	public static List<Student> getAllStudent()
-	{
-		Session session=StudentUtil.createSession();
-		List<Student> list=session.createQuery("from Student").list();
+	public static List<StudentBean> getallstudent(){
+		
+		Session session = StudentUtil.createSession();
+		List<StudentBean> list = session.createQuery("from StudentBean").list();
 		return list;
+	}
+	public static StudentBean getAllStudentById(int id) {
+		Session session = StudentUtil.createSession();
+		StudentBean s = session.get(StudentBean.class, id);
+		return s; 
+	}
+	public static void updateStudent(StudentBean s) {
+		
+		Session session = StudentUtil.createSession();
+		Transaction tr = session.beginTransaction();
+		session.update(s);
+		tr.commit();
+		session.close();
+	}
+	
+	public static void deleteStudent(int id) {
+		Session session=StudentUtil.createSession();
+		Transaction tr=session.beginTransaction();
+		StudentBean s=session.get(StudentBean.class, id);
+		session.delete(s);
+		tr.commit();
+		session.close();
 	}
 }
